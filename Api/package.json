@@ -1,0 +1,26 @@
+{
+  "name": "selftweak-api",
+  "version": "0.0.1",
+  "description": "MiniQuiz",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/artbase/bartosz-zaremba-konkurs-daj-sie-poznac.git"
+  },
+  "keywords": [
+    "quiz",
+    "javascript"
+  ],
+  "author": "Bartosz Zaremba",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/artbase/bartosz-zaremba-konkurs-daj-sie-poznac/issues"
+  },
+  "homepage": "https://github.com/artbase/bartosz-zaremba-konkurs-daj-sie-poznac#readme",
+  "dependencies": {
+    "express": "^4.13.4"
+  }
+}
