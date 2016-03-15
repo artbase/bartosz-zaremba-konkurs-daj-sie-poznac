@@ -1,22 +1,21 @@
 var express = require('express');
-var mysql = require('mysql');
+
+var usersRepository = require('./repositories/users.repository');
 
 var app = express();
 
-var mysqlConfig = require('./config/mysql-config');
-var connection = mysql.createConnection(mysqlConfig);
-connection.connect();
-
 app.get('/users', function (req, res) {
-    connection.query('SELECT * FROM Users', function(err, rows, fields) {
-        if (err) throw err;
+    usersRepository.getUsers()
+        .then(function (resultRows) {
+            console.log('result:', resultRows);
+            resultRows.forEach(function (row) {
+                console.log('row:', row);
+            });
 
-        rows.forEach(function (row) {
-            console.log('row:', row);
+            res.send(resultRows);
+        }, function (err) {
+            throw err;
         });
-
-        res.send(rows);
-    });
 });
 
 app.get('/hello', function (req, res) {
