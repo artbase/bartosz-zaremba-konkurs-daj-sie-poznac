@@ -1,61 +1,14 @@
 var _ = require('lodash');
 
 var Schema = require('../schema/schema');
+var createTablesHelper = require('../helpers/create-tables-helper');
 
 exports.up = function (knex, Promise) {
-    return Promise.all(createTables(knex));
+    return Promise.all(createTablesHelper.createTables(knex, Schema));
 };
 
 exports.down = function (knex, Promise) {
-
+    return Promise.reduce(_.keys(Schema).reverse(), function(values, table) {
+        return knex.schema.dropTableIfExists(table);
+    }, []);
 };
-
-function createTables(knex) {
-    var tableNames = _.keys(Schema);
-    var tables = _.map(tableNames, function (tableName) {
-        return createTable(knex, tableName);
-    });
-    return tables;
-}
-
-function createTable(knex, tableName) {
-    return knex.schema.createTable(tableName, function (table) {
-        var column;
-        var columnKeys = _.keys(Schema[tableName]);
-        _.each(columnKeys, function (key) {
-            if (Schema[tableName][key].type === 'text' && Schema[tableName][key].hasOwnProperty('fieldtype')) {
-                column = table[Schema[tableName][key].type](key, Schema[tableName][key].fieldtype);
-            } else if (Schema[tableName][key].type === 'string' && Schema[tableName][key].hasOwnProperty('maxlength')) {
-                column = table[Schema[tableName][key].type](key, Schema[tableName][key].maxlength);
-            } else {
-                column = table[Schema[tableName][key].type](key);
-            }
-
-            if (Schema[tableName][key].hasOwnProperty('nullable') && Schema[tableName][key].nullable === true) {
-                column.nullable();
-            } else {
-                column.notNullable();
-            }
-
-            if (Schema[tableName][key].hasOwnProperty('primary') && Schema[tableName][key].primary === true) {
-                column.primary();
-            }
-
-            if (Schema[tableName][key].hasOwnProperty('unique') && Schema[tableName][key].unique) {
-                column.unique();
-            }
-
-            if (Schema[tableName][key].hasOwnProperty('unsigned') && Schema[tableName][key].unsigned) {
-                column.unsigned();
-            }
-
-            if (Schema[tableName][key].hasOwnProperty('references')) {
-                column.references(Schema[tableName][key].references);
-            }
-
-            if (Schema[tableName][key].hasOwnProperty('defaultTo')) {
-                column.defaultTo(Schema[tableName][key].defaultTo);
-            }
-        });
-    });
-}

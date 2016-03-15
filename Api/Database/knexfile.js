@@ -13,6 +13,9 @@ module.exports = {
             directory: 'migrations',
             tableName: 'migrations'
         },
-        charset: 'utf8'
+        charset: 'utf8',
+        seeds: {
+            directory: './seeds/dev'
+        }
     }
 };
