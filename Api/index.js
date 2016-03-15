@@ -1,11 +1,11 @@
 var express = require('express');
 
-var db = require('./database/db-provider');
+var usersRepository = require('./repositories/users.repository');
 
 var app = express();
 
 app.get('/users', function (req, res) {
-    db('users')
+    usersRepository.getUsers()
         .then(function (resultRows) {
             console.log('result:', resultRows);
             resultRows.forEach(function (row) {
