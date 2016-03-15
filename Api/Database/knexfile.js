@@ -1,4 +1,4 @@
-var dbConnectionConfig = require('../config/mysql-config');
+var dbConnectionConfig = require('../config/database-config');
 
 module.exports = {
     development: {

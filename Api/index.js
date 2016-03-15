@@ -1,25 +1,21 @@
 var express = require('express');
+
 var db = require('./database/db-provider');
 
 var app = express();
 
-// TODO: to change
-//var mysqlConfig = require('./config/mysql-config');
-//var connection = mysql.createConnection(mysqlConfig);
-//connection.connect();
-
 app.get('/users', function (req, res) {
-    // TODO: to change
-    //connection.query('SELECT * FROM Users', function(err, rows, fields) {
-    //    if (err) throw err;
-    //
-    //    rows.forEach(function (row) {
-    //        console.log('row:', row);
-    //    });
-    //
-    //    res.send(rows);
-    //});
-    res.send([]);
+    db('users')
+        .then(function (resultRows) {
+            console.log('result:', resultRows);
+            resultRows.forEach(function (row) {
+                console.log('row:', row);
+            });
+
+            res.send(resultRows);
+        }, function (err) {
+            throw err;
+        });
 });
 
 app.get('/hello', function (req, res) {

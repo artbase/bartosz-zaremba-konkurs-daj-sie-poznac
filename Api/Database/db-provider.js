@@ -10,7 +10,7 @@ module.exports = dbProvider.getInstance();
 
 function getInstance() {
     if (this.db === null) {
-        this.db = require('knex')(config[process.env.ENV_TYPE]);
+        this.db = require('knex')(config['development']);
     }
 
     return this.db;
